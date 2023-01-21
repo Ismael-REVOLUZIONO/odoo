@@ -36,7 +36,9 @@ jobs:
             DOCKERIZE_VERSION: v0.3.0
       - run:
           name: init db
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+          command: 
+          POSTGRES_HOST_AUTH_METHOD=trust
+          dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: Install odoo
           command: |
