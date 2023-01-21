@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Ismael-REVOLUZIONO/prueba-circlesci.git'
+                git branch: 'main', url: 'https://github.com/Ismael-REVOLUZIONO/prueba-jenkins.git'
             }
         }
         stage('Build') {
