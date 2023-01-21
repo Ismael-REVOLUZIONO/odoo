@@ -37,8 +37,8 @@ jobs:
       - run:
           name: init db
           command: 
-          docker run -d -v odoo-db:/var/lib/postgresql/data $POSTGRES_USER  $POSTGRES_PASSWORD  $POSTGRES_DB --name odoo postgres
-          dockerize -wait tcp://localhost:5432 -timeout 1m
+            docker run -d -v odoo-db:/var/lib/postgresql/data $POSTGRES_USER  $POSTGRES_PASSWORD  $POSTGRES_DB --name odoo postgres
+            dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: Install odoo
           command: |
