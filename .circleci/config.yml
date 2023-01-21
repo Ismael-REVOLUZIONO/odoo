@@ -37,7 +37,7 @@ jobs:
             DOCKERIZE_VERSION: v0.3.0
       - run:
           name: init db
-          command: 
+          command: |
             pg_ctl -D /var/lib/postgresql/data -l logfile start
             dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
