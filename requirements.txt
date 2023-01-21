@@ -1,0 +1,6 @@
+odoo==16.0
+psycopg2
+lxml
+Pillow
+coverage
+nose
