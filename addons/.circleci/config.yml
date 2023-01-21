@@ -1,0 +1,47 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: odoo:16.0
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            pip3 install -r requirements.txt
+      - run:
+          name: Start PostgreSQL
+          command: |
+            service postgresql start
+      - run:
+          name: Create Database
+          command: |
+            createdb mydb
+      - run:
+          name: Run Tests
+          command: |
+            odoo-bin --test-enable --stop-after-init --log-level=test --log-handler=:INFO
+            python3 odoo/odoo-bin -d mydb -i mymodule --test-tags=standard --log-level=test -u all
+  deploy:
+    docker:
+      - image: odoo:16.0
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            pip3 install -r requirements.txt
+      - run:
+          name: Start PostgreSQL
+          command: |
+            service postgresql start
+      - run:
+          name: Create Database
+          command: |
+            createdb mydb
+      - run:
+          name: Start Odoo
+          command: |
+            odoo-bin --workers=2 --log-level=info --log-handler=:INFO
+            --db_host=localhost --db_port=5432 --db_user=postgres --db_password=mypassword --db_name=mydb
