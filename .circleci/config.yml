@@ -26,16 +26,17 @@ jobs:
       - run:
           name: Install dependenciess
           command: |
-            POSTGRES_HOST_AUTH_METHOD=trust
             apt-get update
             apt-get install wget
             wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
             tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
             rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
             pip3 install -r requirements.txt
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
       - run:
           name: init db
-          command: docker run -d -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo -e POSTGRES_DB=postgres --name db postgres:13
+          command: docker run -d -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo -e POSTGRES_DB=odoo --name odoo postgres:13
       - run:
           name: Install odoo
           command: |
