@@ -7,7 +7,7 @@ jobs:
 
     # Primary container image where all commands run
 
-      - image: antilhuecom/odoo-base
+      - image: circleci/odoo:16
         environment:
           DB_HOST: 127.0.0.1
           DATABASE: odoo
