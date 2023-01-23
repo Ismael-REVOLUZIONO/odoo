@@ -24,7 +24,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependenciess
+          name: Install dependences
           command: |
             apt-get update
             apt-get install wget
