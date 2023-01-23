@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_academia_details" model="ir.actions.report">
+            <field name="name">student details</field>
+            <field name="model">academia.student</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">qweb_pdf.report_academia_details</field>
+            <field name="report_file">qweb_pdf.report_academia_details</field>
+            <field name="binding_model_id" ref="modulo_prueba.model_academia_student"></field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_academia_details">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page ">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h1 class="text-center text-dark fw-bold">ACADEMIA QUADIT</h1>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <h3 class="text-center text-primary">INFORMACION DEL ESTUDIANTE</h3>
+                                </div>
+                            </div>
+
+
+                            <div class="row mt-3 ">
+                                <div class="col-12 mx-auto">
+                                    <table class="table table-primary text-center">
+                                        <thead class="table-dark">
+                                            <th >CAMPOS</th>
+                                            <th >DATOS</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>ID:</th>
+                                                <td>
+                                                    <span  t-field="o.id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>NOMBRE:</th>
+                                                <td>
+                                                    <span  t-field="o.name"/>
+                                                    <span t-field="o.last_name"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>FECHA:</th>
+                                                <td>
+                                                    <span t-field="o.create_date"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>CURP</th>
+                                                <td>
+                                                    <span t-field="o.curp"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>EDAD</th>
+                                                <td>
+                                                    <span t-field="o.age"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>PAIS</th>
+                                                <td>
+                                                    <span t-field="o.country"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>ESCUELA</th>
+                                                <td>
+                                                    <span t-field="o.partner_id"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>GRADO</th>
+                                                <td>
+                                                    <span t-field="o.grado_id"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>ESTADO</th>
+                                                <td>
+                                                    <span t-field="o.state"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
