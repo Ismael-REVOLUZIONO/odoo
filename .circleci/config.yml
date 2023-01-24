@@ -4,9 +4,7 @@ jobs:
     working_directory: ~/addons
 
     docker:
-
     # Primary container image where all commands run
-
       - image: antilhuecom/odoo-base
         environment:
           DB_HOST: 127.0.0.1
@@ -14,7 +12,6 @@ jobs:
           USER: odoo
           ODOO_ENVIROMENT: CI
     # Service container image available at `host: localhost`
-
       - image: circleci/postgres:13
         environment:
           POSTGRES_USER: odoo
@@ -22,7 +19,7 @@ jobs:
           POSTGRES_PASSWORD: odoo
 
     steps:
-      - checkout
+      
       - run:
           name: Install dependences
           command: |
@@ -52,3 +49,12 @@ jobs:
             MODULE_TEST: "modulo_libros,modulo_prueba,sales_package_summary,website_sale_algolia,website_sale_category_menu,auth_signup_approval,website_quote_attach_document,website_sale_quote,delivery_cost_customs,l10n_cl_dpa,aws_monitoring"
       - store_test_results:
           path: test-results
+
+
+# workflows:
+#   build and deploy:
+#     jobs:
+#       - build
+#       - Fetch-Code:
+#           requires:
+#             - Hello-World
