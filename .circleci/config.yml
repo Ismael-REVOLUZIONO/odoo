@@ -19,7 +19,7 @@ jobs:
           POSTGRES_PASSWORD: odoo
 
     steps:
-      
+      - checkout
       - run:
           name: Install dependences
           command: |
@@ -51,10 +51,9 @@ jobs:
           path: test-results
 
 
-# workflows:
-#   build and deploy:
-#     jobs:
-#       - build
-#       - Fetch-Code:
-#           requires:
-#             - Hello-World
+workflows:
+  build and deploy:
+    jobs:
+      - build:
+        - steps
+          
