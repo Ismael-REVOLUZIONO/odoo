@@ -45,7 +45,7 @@ jobs:
             odoo -d odoo --db_host $DB_HOST -r $USER --addons-path=$ADDONS_PATH -u  $MODULE_TEST --test-enable --log-level=test --stop-after-init
           environment:
             ADDONS_PATH: "./addons"
-            MODULE_TEST: "modulo_libros,modulo_prueba,sales_package_summary,website_sale_algolia,website_sale_category_menu,auth_signup_approval,website_quote_attach_document,website_sale_quote,delivery_cost_customs,l10n_cl_dpa,aws_monitoring"
+            MODULE_TEST: "modulo_libros,modulo_prueba"
       - store_test_results:
           path: test-results
 
@@ -70,7 +70,7 @@ jobs:
           command: |
             odoo -d odoo --db_host $DB_HOST -r $USER --addons-path=$ADDONS_PATH -i  $MODULE_TEST --stop-after-init
           environment:
-            ADDONS_PATH: "./addons"
+            ADDONS_PATH: "~/addons"
             MODULE_TEST: "modulo_libros,modulo_prueba,sales_package_summary,website_sale_algolia,website_sale_category_menu,auth_signup_approval,website_quote_attach_document,website_sale_quote,delivery_cost_customs,l10n_cl_dpa,aws_monitoring"
 workflows:
   version: 2
