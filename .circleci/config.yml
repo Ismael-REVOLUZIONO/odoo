@@ -41,8 +41,9 @@ jobs:
             odoo -d odoo --db_host $DB_HOST -r $USER --stop-after-init
       - run:
           name: Install modules and Run test
-          command: 
-            odoo -d odoo --db_host $DB_HOST -r $USER --addons-path=$ADDONS_PATH -u  $MODULE_TEST --test-enable --log-level=test --stop-after-init
+          command: |
+            odoo -d odoo --db_host $DB_HOST -r $USER --addons-path=$ADDONS_PATH -i  $MODULE_TEST --stop-after-init
+            
           environment:
             ADDONS_PATH: "./addons"
             MODULE_TEST: "modulo_libros,modulo_prueba"
@@ -68,10 +69,9 @@ jobs:
 #       - run:
 #           name: Deploy to production
 #           command: |
-#             odoo -d odoo --db_host $DB_HOST -r $USER --addons-path=$ADDONS_PATH  --stop-after-init
+#             odoo -d odoo --db_host $DB_HOST -r $USER --addons-path=$ADDONS_PATH --stop-after-init
 #           environment:
 #             ADDONS_PATH: "./addons"
-
 # workflows:
 #   version: 2
 #   build_and_deploy:
@@ -80,4 +80,12 @@ jobs:
 #       - deploy:
 #           requires:
 #             - build
-            
+#             - build:
+#               context: ci-build
+#               filters:
+#                 status: success
+#                 branches:
+#                   only: master
+#     requires:
+#       - build
+#       - deploy
