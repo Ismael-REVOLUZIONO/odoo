@@ -3,6 +3,6 @@ from odoo import models, fields, api
 
 
 class author(models.Model):
-    _name = 'authoroo'
+    _name = 'authorss'
 
     name  = fields.Char('Nombre Author')
