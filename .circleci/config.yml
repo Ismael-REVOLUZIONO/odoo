@@ -80,12 +80,6 @@ workflows:
       - deploy:
           requires:
             - build
-            - build:
-              context: ci-build
-              filters:
-                status: success
-                branches:
-                  only: master
-    requires:
-      - build
-      - deploy
+            
+            
+    
