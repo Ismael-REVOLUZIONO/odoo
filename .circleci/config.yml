@@ -41,8 +41,7 @@ jobs:
             odoo -d odoo --db_host $DB_HOST -r $USER --stop-after-init
       - run:
           name: Install modules and Run test
-          command: |
-            odoo -d odoo --db_host $DB_HOST -r $USER --addons-path=$ADDONS_PATH -i  $MODULE_TEST --stop-after-init
+          command: 
             odoo -d odoo --db_host $DB_HOST -r $USER --addons-path=$ADDONS_PATH -u  $MODULE_TEST --test-enable --log-level=test --stop-after-init
           environment:
             ADDONS_PATH: "./addons"
@@ -51,16 +50,42 @@ jobs:
           path: test-results
 
   deploy:
-    
+    working_directory: ~/addons
+    docker:
+      - image: antilhuecom/odoo-base
+        environment:
+          DB_HOST: 127.0.0.1
+          DATABASE: odoo
+          USER: odoo
+          ODOO_ENVIROMENT: CI
+          
+      - image: circleci/postgres:13
+        environment:
+          POSTGRES_USER: odoo
+          POSTGRES_DB: odoo
+          POSTGRES_PASSWORD: odoo
+    steps:
+      - run:
+          name: Deploy to production
+          command: |
+            odoo -d odoo --db_host $DB_HOST -r $USER --addons-path=$ADDONS_PATH -i  $MODULE_TEST --stop-after-init
+          environment:
+            ADDONS_PATH: "./addons"
+            MODULE_TEST: "modulo_libros,modulo_prueba,sales_package_summary,website_sale_algolia,website_sale_category_menu,auth_signup_approval,website_quote_attach_document,website_sale_quote,delivery_cost_customs,l10n_cl_dpa,aws_monitoring"
 workflows:
   version: 2
-  build-and-deploy:
+  build_and_deploy:
     jobs:
       - build
-      - build:
-        context: ci-build
-        filters:
-          status: success
-          branches:
-              only:
-                - master
+      - deploy:
+          requires:
+            - build
+            - build:
+              context: ci-build
+              filters:
+                status: success
+                branches:
+                  only: master
+    requires:
+      - build
+      - deploy
