@@ -51,11 +51,26 @@ jobs:
           path: test-results
 
   deploy:
+    docker:
+    # Primary container image where all commands run
+      - image: antilhuecom/odoo-base
+        environment:
+          DB_HOST: 127.0.0.1
+          DATABASE: odoo
+          USER: odoo
+          ODOO_ENVIROMENT: CI
+    # Service container image available at `host: localhost`
+      - image: circleci/postgres:13
+        environment:
+          POSTGRES_USER: odoo
+          POSTGRES_DB: odoo
+          POSTGRES_PASSWORD: odoo
     steps:
       - run:
           name: Deploy
-          command: |
+          command: 
             git push origin main
+
 
 workflows:
   version: 2
@@ -65,12 +80,7 @@ workflows:
       - deploy:
           requires:
             - build
-            - build:
-              context: ci-build
-              filters:
-                status: success
-                branches:
-                  only: master
-    # requires:
-    #   - build
-    #   - deploy
+              
+            
+              
+    
