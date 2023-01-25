@@ -65,11 +65,35 @@ jobs:
           POSTGRES_USER: odoo
           POSTGRES_DB: odoo
           POSTGRES_PASSWORD: odoo
+
     steps:
+      - checkout
       - run:
-          name: Deploy
+          name: Install dependences
+          command: |
+            apt-get update
+            apt-get install wget
+            wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            pip3 install -r requirements.txt
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+      - run:
+          name: init db
           command: 
-            git push origin main
+            dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Install odoo
+          command: |
+            odoo -d odoo --db_host $DB_HOST -r $USER --stop-after-init
+      - run:
+          name: Install modules and Run test
+          command: 
+            odoo -d odoo --db_host $DB_HOST -r $USER --addons-path=$ADDONS_PATH -u  $MODULE_TEST --test-enable --log-level=test --stop-after-init
+          environment:
+            ADDONS_PATH: "./addons"
+            MODULE_TEST: "modulo_libros,modulo_prueba"
 
 
 workflows:
